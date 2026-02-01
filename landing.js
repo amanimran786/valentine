@@ -1,4 +1,5 @@
 // ===== LANDING PAGE ANIMATION LOGIC =====
+console.log('Landing.js loaded');
 
 // Initialize variables that will be set when DOM is ready
 let canvas, ctx;
@@ -9,16 +10,22 @@ let isAnimating = true;
 
 // Initialize canvas after DOM is loaded
 function initCanvas() {
+    console.log('Initializing canvas...');
     canvas = document.getElementById('flowerCanvas');
     if (!canvas) {
-        console.error('Canvas element not found');
+        console.error('Canvas element not found!');
         return false;
     }
     ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Could not get canvas context!');
+        return false;
+    }
     
     // Set canvas size to match window
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    console.log('Canvas initialized: ' + canvas.width + 'x' + canvas.height);
     
     return true;
 }
@@ -124,11 +131,16 @@ let flower = null;
 let lastTime = Date.now();
 
 function animateFlower() {
+    if (!flower) {
+        console.error('Flower not initialized!');
+        return;
+    }
+    
     const now = Date.now();
     const dt = (now - lastTime) / 1000 / 8; // 8 second duration
     lastTime = now;
 
-    // Clear canvas
+    // Clear canvas with background
     ctx.fillStyle = 'rgba(26, 0, 51, 0.95)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -138,6 +150,7 @@ function animateFlower() {
     if (flower.progress < flower.maxProgress) {
         requestAnimationFrame(animateFlower);
     } else {
+        console.log('Flower animation complete, starting warp phase');
         // Flower animation complete, move to warp phase
         setTimeout(startWarpPhase, 500);
     }
@@ -145,9 +158,15 @@ function animateFlower() {
 
 // ===== WARP ANIMATION =====
 function startWarpPhase() {
+    console.log('Starting warp phase');
     animationPhase = 'warp';
     const flowerSection = document.querySelector('.flower-section');
     const warpSection = document.querySelector('.warp-section');
+
+    if (!flowerSection || !warpSection) {
+        console.error('Could not find flower or warp sections');
+        return;
+    }
 
     // Hide flower, show warp
     flowerSection.classList.add('hidden');
@@ -189,9 +208,15 @@ function createWarpLines() {
 
 // ===== BLACK HOLE ANIMATION =====
 function startBlackHolePhase() {
+    console.log('Starting black hole phase');
     animationPhase = 'blackhole';
     const warpSection = document.querySelector('.warp-section');
     const blackHoleSection = document.querySelector('.black-hole-section');
+
+    if (!warpSection || !blackHoleSection) {
+        console.error('Could not find warp or black hole sections');
+        return;
+    }
 
     // Hide warp, show black hole
     warpSection.classList.add('hidden');
@@ -203,20 +228,30 @@ function startBlackHolePhase() {
 
 // ===== FADE TO VALENTINE =====
 function fadeToValentine() {
+    console.log('Fading to Valentine page');
     animationPhase = 'fade';
     const fadeOverlay = document.querySelector('.fade-to-valentine');
+
+    if (!fadeOverlay) {
+        console.error('Could not find fade overlay');
+        window.location.href = 'valentine.html';
+        return;
+    }
 
     fadeOverlay.style.opacity = '1';
     fadeOverlay.style.animation = 'fade-out 1s ease-out forwards';
 
     // Redirect to Valentine page
     setTimeout(() => {
+        console.log('Redirecting to valentine.html');
         window.location.href = 'valentine.html';
     }, 1000);
 }
 
 // ===== START ANIMATION =====
 function startAnimation() {
+    console.log('Starting animation sequence');
+    
     // Initialize canvas first
     if (!initCanvas()) {
         console.error('Failed to initialize canvas');
@@ -224,20 +259,40 @@ function startAnimation() {
     }
 
     // Ensure all sections start hidden except flower
-    document.querySelector('.flower-section').classList.remove('hidden');
-    document.querySelector('.warp-section').classList.add('hidden');
-    document.querySelector('.black-hole-section').classList.add('hidden');
-    document.querySelector('.fade-to-valentine').classList.add('hidden');
+    const flowerSection = document.querySelector('.flower-section');
+    const warpSection = document.querySelector('.warp-section');
+    const blackHoleSection = document.querySelector('.black-hole-section');
+    const fadeOverlay = document.querySelector('.fade-to-valentine');
+
+    if (!flowerSection || !warpSection || !blackHoleSection || !fadeOverlay) {
+        console.error('Could not find animation sections');
+        return;
+    }
+
+    flowerSection.classList.remove('hidden');
+    warpSection.classList.add('hidden');
+    blackHoleSection.classList.add('hidden');
+    fadeOverlay.classList.add('hidden');
 
     // Create flower instance
     flower = new Flower();
+    console.log('Flower created, starting animation');
 
     // Start flower animation
     animateFlower();
 }
 
 // Start animation when page loads
-window.addEventListener('load', startAnimation);
+window.addEventListener('load', () => {
+    console.log('Window load event fired');
+    startAnimation();
+});
 
 // Fallback in case load event doesn't fire
-document.addEventListener('DOMContentLoaded', startAnimation);
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM content loaded');
+    if (animationPhase === 'flower' && !flower) {
+        console.log('Animation not started yet, starting now');
+        startAnimation();
+    }
+});

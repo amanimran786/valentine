@@ -126,10 +126,10 @@ function handleNoClick() {
 // ===== START CONTINUOUS MOVEMENT =====
 // This function makes the No button keep moving continuously
 function startContinuousMovement() {
-    // Move the button every 780 milliseconds (0.78 seconds)
+    // Move the button every 750 milliseconds (0.75 seconds)
     moveInterval = setInterval(() => {
         moveNoButton();
-    }, 780);
+    }, 750);
 }
 
 // ===== SHOW MESSAGE =====

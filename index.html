@@ -4,79 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our First Valentine</title>
-    <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="landing-video.css">
 </head>
-<body class="not-loaded">
+<body>
     <div class="landing-container">
-        <!-- PHASE 1: Warp Section (FIRST) -->
-        <div class="warp-section">
-            <div class="starfield"></div>
-            <div class="light-speed"></div>
-            <div class="warp-lines">
-                <div class="warp-line warp-line--1"></div>
-                <div class="warp-line warp-line--2"></div>
-                <div class="warp-line warp-line--3"></div>
-                <div class="warp-line warp-line--4"></div>
-                <div class="warp-line warp-line--5"></div>
+        <!-- VIDEO VERSION - Use this once you have the Sora video -->
+        <div class="video-section">
+            <!-- Replace this with your actual Sora video file -->
+            <video 
+                id="soraVideo" 
+                autoplay 
+                muted 
+                playsinline 
+                width="100%" 
+                height="100%"
+                style="display: block; width: 100%; height: 100%; object-fit: cover;">
+                <source src="valentine-animation.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            
+            <!-- Fallback message if video doesn't load -->
+            <div class="video-fallback">
+                <p>Loading romantic surprise...</p>
             </div>
         </div>
 
-        <!-- PHASE 2: Black Hole Section (SECOND) -->
-        <div class="blackhole-section hidden">
-            <div class="blackhole">
-                <div class="singularity"></div>
-            </div>
-        </div>
-
-        <!-- PHASE 3: Flower Animation (THIRD - emerges from black hole) -->
-        <div class="flower-wrapper hidden">
-            <div class="flower">
-                <!-- Stem -->
-                <div class="stem"></div>
-                
-                <!-- Petals -->
-                <div class="petals">
-                    <div class="petal petal--1"></div>
-                    <div class="petal petal--2"></div>
-                    <div class="petal petal--3"></div>
-                    <div class="petal petal--4"></div>
-                    <div class="petal petal--5"></div>
-                </div>
-                
-                <!-- Center -->
-                <div class="center"></div>
-            </div>
-
-            <!-- Particles -->
-            <div class="particles">
-                <div class="particle particle--1"></div>
-                <div class="particle particle--2"></div>
-                <div class="particle particle--3"></div>
-                <div class="particle particle--4"></div>
-                <div class="particle particle--5"></div>
-                <div class="particle particle--6"></div>
-                <div class="particle particle--7"></div>
-                <div class="particle particle--8"></div>
-                <div class="particle particle--9"></div>
-                <div class="particle particle--10"></div>
-            </div>
-
-            <!-- Magic text overlay -->
-            <div class="magic-text magic-text--1">
-                <span>🌹</span>
-            </div>
-            <div class="magic-text magic-text--2">
-                <span>✨</span>
-            </div>
-            <div class="magic-text magic-text--3">
-                <span>💕</span>
-            </div>
-        </div>
-
-        <!-- PHASE 4: Fade to Valentine -->
-        <div class="fade-overlay hidden"></div>
+        <!-- Fade overlay for transition -->
+        <div class="fade-overlay" id="fadeOverlay"></div>
     </div>
 
-    <script src="landing.js"></script>
+    <script src="landing-video.js"></script>
 </body>
 </html>

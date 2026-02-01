@@ -1,0 +1,68 @@
+SORA VIDEO GENERATION PROMPT
+============================
+
+Title: "Valentine's Day Romantic Journey"
+
+Description:
+Create a cinematic 16-second video animation with the following sequence:
+
+PHASE 1: LIGHT SPEED WARP (0-5 seconds)
+- Start with a black void/space background
+- Thousands of white stars scattered across the field
+- Stars rapidly zoom towards the camera creating a "jumping to lightspeed" effect
+- Add pink/magenta radial gradient pulses radiating outward from center
+- Include horizontal streaks of pink light moving across the screen at high speed (warp lines)
+- The entire effect creates the sensation of traveling through a wormhole at impossible speeds
+- Opacity gradually fades to black as warp concludes
+
+PHASE 2: BLACK HOLE FORMATION (5-10 seconds)
+- Black background
+- A massive black hole materializes in the center with a pink/magenta glow around the event horizon
+- The black hole has:
+  - Pink/magenta outer corona (like aurora borealis around a black hole)
+  - Dark red middle band
+  - Pure black center with subtle glowing singularity
+  - Intense glowing rings of light
+- The black hole expands from small (400px) to massive (2000px+) taking over entire screen
+- The expansion creates the sensation of being pulled into the black hole
+- Everything fades as the black hole consumes the view
+
+PHASE 3: FLOWER BLOOMING (10-15 seconds)
+- Beautiful purple-to-black gradient background (romantic nighttime garden feel)
+- A single romantic flower grows from the ground up:
+  - Green stem gradually grows upward (2.5 seconds)
+  - Five pink petals bloom in sequence around the stem, each petal rotating 72 degrees apart
+  - Each petal unfolds with a bouncy, joyful motion
+  - A golden-to-pink heart-shaped center blooms last at the flower's core
+  - Golden sparkles and particles float upward from the flower
+  - The flower is perfectly centered and the focal point
+- This represents hope and beauty emerging from darkness
+- The flower fully blooms by 15 seconds
+
+PHASE 4: TRANSITION FADE (15-16 seconds)
+- The flower scene gradually fades to black
+- A subtle pink glow lingers briefly
+- Complete fade to black by 16 seconds
+
+TECHNICAL SPECIFICATIONS:
+- Resolution: 1920x1080 (Full HD)
+- Duration: 16 seconds
+- Aspect Ratio: 16:9
+- Frame Rate: 60 FPS
+- Color Grading: High contrast, vibrant pinks/magentas, deep blacks, romantic atmosphere
+- Style: Cinematic, romantic, dreamy, realistic physics-based animation
+- Audio: Silent/no audio (we'll add our own)
+
+MOOD & TONE:
+- Romantic and epic
+- Journey from chaos (speed, black hole) to peace and beauty (flower)
+- Symbolism: Love conquers darkness, beauty emerges from the void
+- Should make viewer feel wonder and anticipation
+
+SHOT COMPOSITION:
+- Always centered focal point
+- Smooth camera movements (no jarring transitions)
+- Seamless transitions between phases
+- Professional film quality
+
+This video will be the landing page animation for a Valentine's Day proposal/ask website.

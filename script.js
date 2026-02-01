@@ -15,6 +15,8 @@ const mainQuestion = document.getElementById('mainQuestion');
 const questionGif = document.getElementById('questionGif');
 const messageBox = document.getElementById('messageBox');
 const messageText = document.getElementById('messageText');
+const annoyedGifBox = document.getElementById('annoyedGifBox');
+const annoyedMediaContainer = document.getElementById('annoyedMediaContainer');
 const celebrationBox = document.getElementById('celebrationBox');
 const mediaContainer = document.getElementById('mediaContainer');
 const kissingGifBox = document.getElementById('kissingGifBox');
@@ -85,6 +87,9 @@ function handleNoClick() {
     const randomMessage = responseMessages[Math.floor(Math.random() * responseMessages.length)];
     showMessage(randomMessage);
     
+    // Show the annoyed gif
+    showAnnoyedGif();
+    
     // Move the button immediately
     moveNoButton();
     
@@ -108,6 +113,40 @@ function startContinuousMovement() {
 function showMessage(text) {
     messageText.textContent = text;
     messageBox.classList.remove('hidden');
+}
+
+// ===== SHOW ANNOYED GIF =====
+// This function shows an annoyed/side eye gif when No is clicked
+function showAnnoyedGif() {
+    // Pool of annoyed/side eye gifs to choose from
+    const annoyedGifs = [
+        'https://media.giphy.com/media/l3q2K5jinAlChoCLS/giphy.gif',
+        'https://media.giphy.com/media/12XMGIQvjHZ6IE/giphy.gif',
+        'https://media.giphy.com/media/26uf1EUQzrxfo4aXS/giphy.gif',
+        'https://media.giphy.com/media/l3q2K5jinAlChoCLS/giphy.gif',
+        'https://media.giphy.com/media/6tHy8UeQloVMA/giphy.gif',
+        'https://media.giphy.com/media/xTiTnGeUsWOEwsGoE8/giphy.gif'
+    ];
+    
+    // Pick a random annoyed gif
+    const randomAnnoyedGif = annoyedGifs[Math.floor(Math.random() * annoyedGifs.length)];
+    
+    // Create an img element
+    const img = document.createElement('img');
+    img.src = randomAnnoyedGif;
+    img.alt = 'Annoyed';
+    
+    // Clear and add the annoyed gif
+    annoyedMediaContainer.innerHTML = '';
+    annoyedMediaContainer.appendChild(img);
+    
+    // Show the annoyed gif box
+    annoyedGifBox.classList.remove('hidden');
+    
+    // Hide it after 2 seconds
+    setTimeout(() => {
+        annoyedGifBox.classList.add('hidden');
+    }, 2000);
 }
 
 // ===== MOVE NO BUTTON =====

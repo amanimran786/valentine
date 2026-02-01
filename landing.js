@@ -1,140 +1,75 @@
-// ===== LANDING PAGE ANIMATION LOGIC =====
-console.log('🎀 Landing page loaded');
+// Landing page animation controller
+console.log('🎀 Valentine landing page initialized');
 
-// NEW ORDER: Warp → Black Hole → Flower → Valentine
-const WARP_DURATION = 5000;        // Phase 1: Light speed warp effect (5s)
-const BLACKHOLE_DURATION = 5000;   // Phase 2: Black hole forms (5s)
-const FLOWER_DURATION = 5000;      // Phase 3: Flower blooms (5s)
-const FADE_DURATION = 1500;        // Phase 4: Fade transition (1.5s)
+// Phase durations
+const WARP_TIME = 5000;
+const BLACKHOLE_TIME = 5000;
+const FLOWER_TIME = 5000;
+const FADE_TIME = 1500;
 
 let currentPhase = 'start';
 
-// Start animation when page fully loads
-window.addEventListener('load', () => {
-    requestAnimationFrame(() => {
-        startAnimation();
-    });
-});
+// Wait for page to load
+window.addEventListener('load', initAnimation);
 
-if (document.readyState === 'complete') {
-    startAnimation();
-}
-
-function startAnimation() {
-    console.log('🚀 PHASE 1: Light speed warp begins...');
-    currentPhase = 'warp';
+function initAnimation() {
+    console.log('🚀 Starting animation sequence');
     
-    // Remove "not-loaded" to start warp animations
+    // Remove the pause class
     document.body.classList.remove('not-loaded');
     
-    // Warp section is already visible by default
+    // Start with warp section visible
     const warpSection = document.querySelector('.warp-section');
     if (warpSection) {
         warpSection.classList.remove('hidden');
     }
     
-    // Schedule transition to black hole
-    setTimeout(() => {
-        transitionToBlackhole();
-    }, WARP_DURATION);
+    currentPhase = 'warp';
+    
+    // After warp ends, go to black hole
+    setTimeout(goToBlackhole, WARP_TIME);
 }
 
-function transitionToBlackhole() {
+function goToBlackhole() {
     if (currentPhase !== 'warp') return;
     
-    console.log('🕳️ PHASE 2: Black hole forming...');
+    console.log('🕳️ Black hole forming');
     currentPhase = 'blackhole';
     
-    const warpSection = document.querySelector('.warp-section');
-    const blackholeSection = document.querySelector('.blackhole-section');
+    const warp = document.querySelector('.warp-section');
+    const blackhole = document.querySelector('.blackhole-section');
     
-    if (warpSection && blackholeSection) {
-        // Fade out warp, fade in black hole
-        warpSection.style.opacity = '0';
-        warpSection.style.transition = 'opacity 1s ease-out';
-        
-        setTimeout(() => {
-            warpSection.classList.add('hidden');
-            blackholeSection.classList.remove('hidden');
-            blackholeSection.style.opacity = '0';
-            blackholeSection.style.transition = 'opacity 1s ease-in';
-            
-            // Trigger reflow and start animation
-            void blackholeSection.offsetWidth;
-            blackholeSection.style.opacity = '1';
-        }, 300);
-    }
+    if (warp) warp.classList.add('hidden');
+    if (blackhole) blackhole.classList.remove('hidden');
     
-    // Schedule transition to flower
-    setTimeout(() => {
-        transitionToFlower();
-    }, BLACKHOLE_DURATION);
+    setTimeout(goToFlower, BLACKHOLE_TIME);
 }
 
-function transitionToFlower() {
+function goToFlower() {
     if (currentPhase !== 'blackhole') return;
     
-    console.log('🌹 PHASE 3: Flower blooming from the darkness...');
+    console.log('🌹 Flower blooming');
     currentPhase = 'flower';
     
-    const blackholeSection = document.querySelector('.blackhole-section');
-    const flowerWrapper = document.querySelector('.flower-wrapper');
+    const blackhole = document.querySelector('.blackhole-section');
+    const flower = document.querySelector('.flower-wrapper');
     
-    if (blackholeSection && flowerWrapper) {
-        // Fade out black hole, fade in flower
-        blackholeSection.style.opacity = '0';
-        blackholeSection.style.transition = 'opacity 1s ease-out';
-        
-        setTimeout(() => {
-            blackholeSection.classList.add('hidden');
-            flowerWrapper.classList.remove('hidden');
-            flowerWrapper.style.opacity = '0';
-            flowerWrapper.style.transition = 'opacity 1s ease-in';
-            
-            // Trigger reflow and start flower animations
-            void flowerWrapper.offsetWidth;
-            flowerWrapper.style.opacity = '1';
-            
-            // Start flower bloom animations from this point
-            startFlowerAnimations();
-        }, 300);
-    }
+    if (blackhole) blackhole.classList.add('hidden');
+    if (flower) flower.classList.remove('hidden');
     
-    // Schedule transition to valentine
-    setTimeout(() => {
-        transitionToValentine();
-    }, FLOWER_DURATION);
+    setTimeout(goToValentine, FLOWER_TIME);
 }
 
-function startFlowerAnimations() {
-    // Remove not-loaded from flower elements to start their animations
-    const flowerElements = document.querySelectorAll('.flower-wrapper *');
-    flowerElements.forEach(el => {
-        if (el.classList.contains('not-loaded')) {
-            el.classList.remove('not-loaded');
-        }
-    });
-}
-
-function transitionToValentine() {
+function goToValentine() {
     if (currentPhase !== 'flower') return;
     
-    console.log('💕 PHASE 4: Transitioning to Valentine...');
+    console.log('💕 Transitioning to Valentine');
     currentPhase = 'valentine';
     
-    const fadeOverlay = document.querySelector('.fade-overlay');
-    if (fadeOverlay) {
-        fadeOverlay.classList.remove('hidden');
-        fadeOverlay.style.opacity = '0';
-        fadeOverlay.style.transition = 'opacity ' + FADE_DURATION + 'ms ease-out';
-        
-        // Trigger reflow
-        void fadeOverlay.offsetWidth;
-        fadeOverlay.style.opacity = '1';
-    }
+    const fade = document.querySelector('.fade-overlay');
+    if (fade) fade.classList.remove('hidden');
     
-    // Redirect after fade
     setTimeout(() => {
         window.location.href = 'valentine.html';
-    }, FADE_DURATION);
+    }, FADE_TIME);
 }

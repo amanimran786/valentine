@@ -1,21 +1,34 @@
 // ===== LANDING PAGE ANIMATION LOGIC =====
 
-// Get canvas context
-const canvas = document.getElementById('flowerCanvas');
-const ctx = canvas.getContext('2d');
-
-// Set canvas size to match window
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+// Initialize variables that will be set when DOM is ready
+let canvas, ctx;
 
 // Animation state
 let animationPhase = 'flower'; // flower, warp, blackhole, fade
 let isAnimating = true;
 
-// Handle window resize
-window.addEventListener('resize', () => {
+// Initialize canvas after DOM is loaded
+function initCanvas() {
+    canvas = document.getElementById('flowerCanvas');
+    if (!canvas) {
+        console.error('Canvas element not found');
+        return false;
+    }
+    ctx = canvas.getContext('2d');
+    
+    // Set canvas size to match window
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    
+    return true;
+}
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
 });
 
 // ===== FLOWER ANIMATION =====
@@ -107,7 +120,7 @@ class Flower {
     }
 }
 
-const flower = new Flower();
+let flower = null;
 let lastTime = Date.now();
 
 function animateFlower() {
@@ -204,11 +217,20 @@ function fadeToValentine() {
 
 // ===== START ANIMATION =====
 function startAnimation() {
+    // Initialize canvas first
+    if (!initCanvas()) {
+        console.error('Failed to initialize canvas');
+        return;
+    }
+
     // Ensure all sections start hidden except flower
     document.querySelector('.flower-section').classList.remove('hidden');
     document.querySelector('.warp-section').classList.add('hidden');
     document.querySelector('.black-hole-section').classList.add('hidden');
     document.querySelector('.fade-to-valentine').classList.add('hidden');
+
+    // Create flower instance
+    flower = new Flower();
 
     // Start flower animation
     animateFlower();
@@ -218,8 +240,4 @@ function startAnimation() {
 window.addEventListener('load', startAnimation);
 
 // Fallback in case load event doesn't fire
-document.addEventListener('DOMContentLoaded', () => {
-    if (animationPhase === 'flower' && flower.progress === 0) {
-        startAnimation();
-    }
-});
+document.addEventListener('DOMContentLoaded', startAnimation);

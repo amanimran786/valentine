@@ -198,7 +198,7 @@ function fadeToValentine() {
 
     // Redirect to Valentine page
     setTimeout(() => {
-        window.location.href = 'index.html';
+        window.location.href = 'valentine.html';
     }, 1000);
 }
 

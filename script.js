@@ -156,6 +156,12 @@ function showAnnoyedGif() {
     // Get the next unique gif
     const nextGif = remainingGifs.shift();
     
+    // Hide the question gif immediately
+    questionGif.classList.add('hidden');
+    
+    // Show the annoyed gif box
+    annoyedGifBox.classList.remove('hidden');
+    
     // Create an img element
     const img = document.createElement('img');
     img.src = nextGif;
@@ -167,14 +173,8 @@ function showAnnoyedGif() {
     annoyedMediaContainer.innerHTML = '';
     annoyedMediaContainer.appendChild(img);
     
-    // Hide the question gif temporarily
-    questionGif.classList.add('hidden');
-    
-    // Show the annoyed gif box
-    annoyedGifBox.classList.remove('hidden');
-    
-    // Hide the annoyed gif and show question gif again after 4.2 seconds
-    setTimeout(() => {
+    // Set timer to hide after exactly 4.2 seconds (4200ms)
+    const hideTimer = setTimeout(() => {
         annoyedGifBox.classList.add('hidden');
         questionGif.classList.remove('hidden');
     }, 4200);

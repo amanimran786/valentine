@@ -120,12 +120,12 @@ function showMessage(text) {
 function showAnnoyedGif() {
     // Pool of annoyed/side eye gifs to choose from
     const annoyedGifs = [
-        'https://media.giphy.com/media/l3q2K5jinAlChoCLS/giphy.gif',
-        'https://media.giphy.com/media/12XMGIQvjHZ6IE/giphy.gif',
-        'https://media.giphy.com/media/26uf1EUQzrxfo4aXS/giphy.gif',
-        'https://media.giphy.com/media/l3q2K5jinAlChoCLS/giphy.gif',
-        'https://media.giphy.com/media/6tHy8UeQloVMA/giphy.gif',
-        'https://media.giphy.com/media/xTiTnGeUsWOEwsGoE8/giphy.gif'
+        'https://media.giphy.com/media/l0HlJY9x8FZo0XO1i/giphy.gif',
+        'https://media.giphy.com/media/d3OdKKKlJpdbEVEQ/giphy.gif',
+        'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
+        'https://media.giphy.com/media/l0HlTy9x8FZo0XO1i/giphy.gif',
+        'https://media.giphy.com/media/g9GUusdUZsKFO/giphy.gif',
+        'https://media.giphy.com/media/3o6Zt6KHxJTbXCnSvu/giphy.gif'
     ];
     
     // Pick a random annoyed gif

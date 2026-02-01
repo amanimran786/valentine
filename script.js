@@ -173,11 +173,11 @@ function showAnnoyedGif() {
     // Show the annoyed gif box
     annoyedGifBox.classList.remove('hidden');
     
-    // Hide the annoyed gif and show question gif again after 2 seconds
+    // Hide the annoyed gif and show question gif again after 3.6 seconds
     setTimeout(() => {
         annoyedGifBox.classList.add('hidden');
         questionGif.classList.remove('hidden');
-    }, 2000);
+    }, 3600);
 }
 
 // ===== MOVE NO BUTTON =====

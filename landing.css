@@ -1,4 +1,4 @@
-/* ===== LANDING PAGE STYLES ===== */
+/* ===== LANDING PAGE - CLEAN & SMOOTH ANIMATIONS ===== */
 * {
     margin: 0;
     padding: 0;
@@ -17,35 +17,188 @@ body {
     background: #000;
     overflow: hidden;
     perspective: 1000px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Pause animations until page fully loads */
-.not-loaded * {
-    animation-play-state: paused !important;
 }
 
 .landing-container {
     width: 100%;
     height: 100%;
     position: relative;
+    overflow: hidden;
 }
 
-/* ===== AURA EFFECT ===== */
-@keyframes aura-glow {
-    0% {
+.hidden {
+    display: none !important;
+}
+
+/* ===== PHASE 1: FLOWER ===== */
+.flower-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a0033 0%, #2d0052 50%, #000 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.8s ease-out;
+}
+
+.flower-wrapper.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.flower {
+    position: relative;
+    width: 200px;
+    height: 400px;
+}
+
+/* Stem grows upward */
+@keyframes stemGrow {
+    from {
+        height: 0;
+    }
+    to {
+        height: 280px;
+    }
+}
+
+.stem {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 0;
+    background: linear-gradient(to top, #0d5c0d, #2d8a2d, #4aaa4a);
+    border-radius: 4px;
+    animation: stemGrow 2.5s ease-out forwards;
+    box-shadow: 0 0 20px rgba(45, 138, 45, 0.6);
+}
+
+/* Petals bloom */
+@keyframes petalBoom {
+    from {
         opacity: 0;
-        transform: scale(0.8);
+        transform: scale(0) rotateX(90deg);
     }
-    20% {
-        opacity: 0.6;
+    to {
+        opacity: 1;
+        transform: scale(1) rotateX(0deg);
     }
-    80% {
+}
+
+.petal {
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    border-radius: 50% 50% 50% 0;
+    bottom: 280px;
+    left: 50%;
+    transform-origin: bottom center;
+    opacity: 0;
+    animation: petalBoom 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.8));
+}
+
+.petal--1 { 
+    animation-delay: 1.8s;
+    transform: translateX(-50%) translateY(-10px) rotate(0deg);
+}
+.petal--2 { 
+    animation-delay: 2.0s;
+    transform: translateX(-50%) translateY(-10px) rotate(72deg);
+}
+.petal--3 { 
+    animation-delay: 2.2s;
+    transform: translateX(-50%) translateY(-10px) rotate(144deg);
+}
+.petal--4 { 
+    animation-delay: 2.4s;
+    transform: translateX(-50%) translateY(-10px) rotate(216deg);
+}
+.petal--5 { 
+    animation-delay: 2.6s;
+    transform: translateX(-50%) translateY(-10px) rotate(288deg);
+}
+
+/* Center bloom */
+@keyframes centerBurst {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.center {
+    position: absolute;
+    bottom: 310px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffd700, #ff69b4, #ff1493);
+    box-shadow: 
+        0 0 30px #ffd700,
+        0 0 60px rgba(255, 20, 147, 0.8),
+        inset -5px -5px 10px rgba(0,0,0,0.3);
+    animation: centerBurst 1s cubic-bezier(0.34, 1.56, 0.64, 1) 2.8s forwards;
+    opacity: 0;
+}
+
+/* Particles */
+@keyframes particleFloat {
+    from {
+        opacity: 0;
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        transform: translateY(var(--ty)) scale(0);
+    }
+}
+
+.particle {
+    position: absolute;
+    bottom: 280px;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffd700, #ff69b4);
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.9);
+    animation: particleFloat 3s ease-out forwards;
+    opacity: 0;
+}
+
+.particle--1 { --ty: -300px; animation-delay: 2.2s; transform: translateX(-100px) translateZ(0); }
+.particle--2 { --ty: -320px; animation-delay: 2.3s; transform: translateX(100px) translateZ(0); }
+.particle--3 { --ty: -280px; animation-delay: 2.4s; transform: translateX(-150px) translateZ(0); }
+.particle--4 { --ty: -310px; animation-delay: 2.5s; transform: translateX(150px) translateZ(0); }
+.particle--5 { --ty: -330px; animation-delay: 2.6s; transform: translateX(-80px) translateZ(0); }
+
+/* Aura glow */
+@keyframes auraGlow {
+    from {
         opacity: 0.4;
+        transform: scale(0.5);
     }
-    100% {
+    to {
         opacity: 0;
-        transform: scale(2);
+        transform: scale(3);
     }
 }
 
@@ -53,309 +206,46 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 105, 180, 0.4), transparent);
     transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255, 105, 180, 0.5), transparent);
-    border-radius: 50%;
     pointer-events: none;
-    z-index: 15;
-    animation: aura-glow 3s ease-out forwards;
-    box-shadow: 0 0 60px rgba(255, 105, 180, 0.8);
+    animation: auraGlow 3s ease-out forwards;
+    z-index: 5;
 }
 
-/* ===== FLOWER ANIMATION ===== */
-.flower-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(180deg, #2d0052 0%, #1a0033 50%, #000 100%);
-    position: relative;
-    z-index: 10;
-}
-
-.flower {
-    position: relative;
-    width: 15vmin;
-    height: 60vmin;
-    transform-origin: bottom center;
-}
-
-/* Stem */
-.stem {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0.8vmin;
-    height: 40vmin;
-    background: linear-gradient(to top, #1a5c1a, #2d8a2d);
-    border-radius: 50%;
-    animation: stem-grow 3s ease-out backwards;
-    box-shadow: inset -0.2vmin 0 0.3vmin rgba(0,0,0,0.5);
-}
-
-@keyframes stem-grow {
-    0% {
-        height: 0;
-        opacity: 0;
-        filter: drop-shadow(0 0 0px rgba(74, 139, 47, 0));
-    }
-    50% {
-        opacity: 1;
-        filter: drop-shadow(0 0 5px rgba(74, 139, 47, 0.3));
-    }
-    100% {
-        height: 40vmin;
-        opacity: 1;
-        filter: drop-shadow(0 0 15px rgba(74, 139, 47, 0.8));
-    }
-}
-
-/* Petals */
-.petals {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 15vmin;
-    height: 15vmin;
-}
-
-/* ===== PARTICLE EFFECTS ===== */
-.particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.particle {
-    position: absolute;
-    bottom: 35vmin;
-    left: 50%;
-    width: 0.5vmin;
-    height: 0.5vmin;
-    background: radial-gradient(circle, #FFD700, #ff69b4);
-    border-radius: 50%;
-    opacity: 0;
-    animation: particle-float 4s ease-out forwards;
-    box-shadow: 0 0 1vmin rgba(255, 20, 147, 0.8);
-}
-
-@keyframes particle-float {
-    0% {
-        opacity: 0;
-        transform: translateX(0) translateY(0) scale(0);
-    }
-    20% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(var(--tx)) translateY(var(--ty)) scale(0);
-    }
-}
-
-.particle--1 { --tx: -80px; --ty: -200px; animation-delay: 2.8s; }
-.particle--2 { --tx: 80px; --ty: -210px; animation-delay: 2.9s; }
-.particle--3 { --tx: -120px; --ty: -180px; animation-delay: 3.0s; }
-.particle--4 { --tx: 120px; --ty: -190px; animation-delay: 3.1s; }
-.particle--5 { --tx: -60px; --ty: -230px; animation-delay: 3.2s; }
-.particle--6 { --tx: 60px; --ty: -240px; animation-delay: 3.3s; }
-.particle--7 { --tx: -100px; --ty: -150px; animation-delay: 3.4s; }
-.particle--8 { --tx: 100px; --ty: -160px; animation-delay: 3.5s; }
-.particle--9 { --tx: -40px; --ty: -220px; animation-delay: 3.6s; }
-.particle--10 { --tx: 40px; --ty: -210px; animation-delay: 3.7s; }
-
-/* ===== MAGIC TEXT EFFECTS ===== */
-@keyframes text-float-1 {
-    0% {
-        opacity: 0;
-        transform: translateY(0) scale(0);
-    }
-    30% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-300px) scale(0);
-    }
-}
-
-@keyframes text-float-2 {
-    0% {
-        opacity: 0;
-        transform: translateY(0) scale(0);
-    }
-    30% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-350px) scale(0);
-    }
-}
-
-@keyframes text-float-3 {
-    0% {
-        opacity: 0;
-        transform: translateY(0) scale(0);
-    }
-    30% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-400px) scale(0);
-    }
-}
-
-.magic-text {
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 3vmin;
-    pointer-events: none;
-    filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.8));
-}
-
-.magic-text--1 {
-    animation: text-float-1 4s ease-out forwards;
-    animation-delay: 2.8s;
-    left: 35%;
-}
-
-.magic-text--2 {
-    animation: text-float-2 4s ease-out forwards;
-    animation-delay: 3.0s;
-    left: 50%;
-}
-
-.magic-text--3 {
-    animation: text-float-3 4s ease-out forwards;
-    animation-delay: 3.2s;
-    left: 65%;
-}
-
-@keyframes petal-bloom {
-    0% {
-        opacity: 0;
-        transform: scale(0);
-        filter: drop-shadow(0 0 0px rgba(255, 20, 147, 0));
-    }
-    60% {
-        opacity: 1;
-        filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.8));
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-        filter: drop-shadow(0 0 15px rgba(255, 20, 147, 1));
-    }
-}
-
-.petal {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 4vmin;
-    height: 12vmin;
-    background: radial-gradient(ellipse at center, #ff69b4 0%, #ff1493 100%);
-    border-radius: 50% 50% 50% 20%;
-    transform-origin: bottom center;
-    opacity: 0;
-    animation: petal-bloom 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
-    box-shadow: inset -0.3vmin 0 0.5vmin rgba(0,0,0,0.3);
-}
-
-.petal--1 {
-    animation-delay: 2.5s;
-    transform: translateX(-50%) rotate(0deg) translateY(-2vmin) rotateX(20deg);
-}
-
-.petal--2 {
-    animation-delay: 2.7s;
-    transform: translateX(-50%) rotate(72deg) translateY(-2vmin);
-}
-
-.petal--3 {
-    animation-delay: 2.9s;
-    transform: translateX(-50%) rotate(144deg) translateY(-2vmin);
-}
-
-.petal--4 {
-    animation-delay: 3.1s;
-    transform: translateX(-50%) rotate(216deg) translateY(-2vmin);
-}
-
-.petal--5 {
-    animation-delay: 3.3s;
-    transform: translateX(-50%) rotate(288deg) translateY(-2vmin);
-}
-
-@keyframes petal-bloom {
-    0% {
-        opacity: 0;
-        transform: translateX(-50%) scale(0);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(-50%) scale(1);
-    }
-}
-
-/* Center */
-.center {
-    position: absolute;
-    top: 2vmin;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 3vmin;
-    height: 3vmin;
-    background: radial-gradient(circle at 35% 35%, #FFD700 0%, #FF6B9D 50%, #FF1493 100%);
-    border-radius: 50%;
-    box-shadow: 
-        0 0 1vmin #FFD700,
-        0 0 2vmin #FF69B4,
-        0 0 3vmin rgba(255, 20, 147, 0.5),
-        inset -0.2vmin -0.2vmin 0.5vmin rgba(0,0,0,0.3),
-        inset 0.1vmin 0.1vmin 0.5vmin rgba(255,255,255,0.3);
-    animation: center-bloom 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s backwards;
-}
-
-@keyframes center-bloom {
-    0% {
-        opacity: 0;
-        transform: translateX(-50%) scale(0);
-        filter: drop-shadow(0 0 0px rgba(255, 20, 147, 0));
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(-50%) scale(1);
-        filter: drop-shadow(0 0 20px rgba(255, 20, 147, 1));
-    }
-}
-
-/* ===== WARP SECTION ===== */
+/* ===== PHASE 2: WARP SPEED ===== */
 .warp-section {
-    width: 100%;
-    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    height: 100%;
     background: #000;
-    overflow: hidden;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.8s ease-in;
+}
+
+.warp-section:not(.hidden) {
+    opacity: 1;
+}
+
+/* Starfield zoom */
+@keyframes starZoom {
+    from {
+        transform: scale(1);
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    to {
+        transform: scale(10);
+        opacity: 0;
+    }
 }
 
 .starfield {
@@ -363,147 +253,109 @@ body {
     width: 100%;
     height: 100%;
     background-image: 
-        radial-gradient(2px 2px at 20px 30px, #fff, rgba(255,255,255,.2)),
-        radial-gradient(2px 2px at 60px 70px, #fff, rgba(255,255,255,.2)),
-        radial-gradient(1px 1px at 50px 50px, #fff, rgba(255,255,255,.2)),
-        radial-gradient(1px 1px at 130px 80px, #fff, rgba(255,255,255,.2)),
-        radial-gradient(2px 2px at 90px 10px, #fff, rgba(255,255,255,.2));
-    background-repeat: repeat;
+        radial-gradient(2px 2px at 20%, 30%, #fff, rgba(255,255,255,0.2)),
+        radial-gradient(2px 2px at 60%, 70%, #fff, rgba(255,255,255,0.2)),
+        radial-gradient(1px 1px at 50%, 50%, #fff, rgba(255,255,255,0.2));
     background-size: 200px 200px;
-    animation: starfield-zoom 3s ease-in forwards;
+    background-repeat: repeat;
+    animation: starZoom 4s ease-in forwards;
 }
 
-@keyframes starfield-zoom {
-    0% {
-        transform: scale(1) translateZ(0);
-        opacity: 0.3;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        transform: scale(8) translateZ(0);
+/* Light pulse */
+@keyframes lightPulse {
+    from {
         opacity: 0;
+        transform: scale(0.1);
+    }
+    40% {
+        opacity: 0.8;
+    }
+    to {
+        opacity: 0;
+        transform: scale(5);
     }
 }
 
 .light-speed {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255, 105, 180, 0.6) 0%, rgba(255, 20, 147, 0.3) 30%, transparent 70%);
-    animation: speed-pulse 3.5s ease-out forwards;
-    box-shadow: inset 0 0 100px rgba(255, 105, 180, 0.5);
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    margin-left: -100px;
+    margin-top: -100px;
+    background: radial-gradient(circle, rgba(255, 105, 180, 0.6), transparent);
+    border-radius: 50%;
+    animation: lightPulse 4s ease-out forwards;
+    box-shadow: 0 0 100px rgba(255, 105, 180, 0.8);
 }
 
-@keyframes speed-pulse {
-    0% {
-        opacity: 0;
-        transform: scale(0.2);
-    }
-    40% {
-        opacity: 0.9;
-    }
-    100% {
-        opacity: 0;
-        transform: scale(4);
-    }
-}
-
-.warp-lines {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.warp-line {
-    position: absolute;
-    background: linear-gradient(90deg, transparent, #ff69b4, transparent);
-    opacity: 0;
-    animation: warp-move 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    filter: drop-shadow(0 0 5px rgba(255, 105, 180, 0.8));
-}
-
-@keyframes warp-move {
-    0% {
+/* Warp lines */
+@keyframes warpExpand {
+    from {
         opacity: 0;
         transform: scaleX(0);
     }
     30% {
         opacity: 1;
     }
-    100% {
+    to {
         opacity: 0;
         transform: scaleX(1);
     }
 }
 
-.warp-line--1 {
+.warp-line {
+    position: absolute;
+    height: 3px;
     width: 80%;
-    height: 2px;
-    top: 20%;
     left: 10%;
-    animation-delay: 0s;
+    background: linear-gradient(90deg, transparent, #ff69b4, transparent);
+    animation: warpExpand 1.2s ease-out forwards;
+    filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.8));
 }
 
-.warp-line--2 {
-    width: 75%;
-    height: 2px;
-    top: 35%;
-    left: 12.5%;
-    animation-delay: 0.2s;
+.warp-line--1 { top: 20%; animation-delay: 0.5s; }
+.warp-line--2 { top: 35%; animation-delay: 0.8s; }
+.warp-line--3 { top: 50%; animation-delay: 1.1s; }
+.warp-line--4 { top: 65%; animation-delay: 1.4s; }
+.warp-line--5 { top: 80%; animation-delay: 1.7s; }
+
+/* ===== PHASE 3: BLACK HOLE ===== */
+.blackhole-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    opacity: 0;
+    transition: opacity 0.8s ease-in;
 }
 
-.warp-line--3 {
-    width: 70%;
-    height: 2px;
-    top: 50%;
-    left: 15%;
-    animation-delay: 0.4s;
+.blackhole-section:not(.hidden) {
+    opacity: 1;
 }
 
-.warp-line--4 {
-    width: 75%;
-    height: 2px;
-    top: 65%;
-    left: 12.5%;
-    animation-delay: 0.6s;
-}
-
-.warp-line--5 {
-    width: 80%;
-    height: 2px;
-    top: 80%;
-    left: 10%;
-    animation-delay: 0.8s;
-}
-
-@keyframes warp-move {
-    0% {
-        opacity: 0;
-        transform: scaleX(0);
+/* Black hole expand */
+@keyframes holeExpand {
+    from {
+        width: 300px;
+        height: 300px;
+        opacity: 0.3;
     }
     50% {
         opacity: 1;
     }
-    100% {
+    to {
+        width: 1500px;
+        height: 1500px;
         opacity: 0;
-        transform: scaleX(1);
     }
-}
-
-/* ===== BLACK HOLE SECTION ===== */
-.blackhole-section {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 30;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
 }
 
 .blackhole {
@@ -514,33 +366,27 @@ body {
     background: radial-gradient(circle at 35% 35%, 
         rgba(255, 105, 180, 0.8) 0%,
         rgba(255, 20, 147, 0.6) 20%,
-        rgba(255, 20, 147, 0.3) 40%,
-        rgba(100, 0, 50, 0.5) 60%,
-        #000 85%,
+        rgba(200, 0, 50, 0.4) 50%,
+        rgba(0, 0, 0, 0.9) 80%,
         #000 100%);
+    animation: holeExpand 4s ease-in forwards;
     box-shadow: 
-        0 0 50px rgba(255, 105, 180, 0.9),
-        0 0 100px rgba(255, 20, 147, 0.7),
-        0 0 150px rgba(255, 20, 147, 0.4),
-        inset 0 0 100px rgba(0,0,0,0.95),
-        inset -20px -20px 60px rgba(255, 20, 147, 0.3);
-    animation: blackhole-expand 3.5s ease-in forwards;
-    filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.8));
+        0 0 80px rgba(255, 105, 180, 0.9),
+        0 0 150px rgba(255, 20, 147, 0.6),
+        inset 0 0 100px rgba(0, 0, 0, 0.95);
 }
 
-@keyframes blackhole-expand {
-    0% {
-        width: 300px;
-        height: 300px;
-        opacity: 0.3;
-    }
-    50% {
+/* Singularity grow */
+@keyframes singularityGrow {
+    from {
+        width: 150px;
+        height: 150px;
         opacity: 1;
     }
-    100% {
-        width: 1200px;
-        height: 1200px;
-        opacity: 0;
+    to {
+        width: 700px;
+        height: 700px;
+        opacity: 0.4;
     }
 }
 
@@ -549,73 +395,42 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background: radial-gradient(circle at 40% 40%, rgba(255, 105, 180, 0.8), #1a0000);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 105, 180, 0.8), #000);
+    animation: singularityGrow 4s ease-in forwards;
     box-shadow: 
-        0 0 60px rgba(255, 20, 147, 0.8),
-        0 0 100px rgba(255, 105, 180, 0.5),
-        inset 0 0 40px rgba(0,0,0,0.9),
-        inset -10px -10px 30px rgba(255, 20, 147, 0.4);
-    animation: singularity-grow 3.5s ease-in forwards;
-    filter: drop-shadow(0 0 25px rgba(255, 20, 147, 0.9));
+        0 0 80px rgba(255, 20, 147, 0.9),
+        0 0 150px rgba(255, 105, 180, 0.6),
+        inset 0 0 50px rgba(0, 0, 0, 0.9);
 }
 
-@keyframes singularity-grow {
-    0% {
-        width: 150px;
-        height: 150px;
+/* ===== PHASE 4: FADE TO VALENTINE ===== */
+@keyframes fadeToBlack {
+    from {
         opacity: 1;
+        background: radial-gradient(circle, rgba(255, 20, 147, 0.2), #000);
     }
-    100% {
-        width: 600px;
-        height: 600px;
-        opacity: 0.5;
-    }
-}
-
-/* ===== FADE OVERLAY ===== */
-@keyframes fade-out-epic {
-    0% {
-        opacity: 1;
-        background: radial-gradient(circle, rgba(255, 20, 147, 0.3), #000);
-    }
-    70% {
-        background: radial-gradient(circle, rgba(255, 20, 147, 0), #000);
-    }
-    100% {
+    to {
         opacity: 0;
         background: #000;
     }
 }
 
 .fade-overlay {
-    width: 100%;
-    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 40;
+    width: 100%;
+    height: 100%;
     background: #000;
-    animation: fade-out-epic 1s ease-out forwards;
-    box-shadow: inset 0 0 100px rgba(255, 20, 147, 0.5);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    animation: fadeToBlack 1.5s ease-out forwards;
 }
 
-@keyframes fade-out {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-/* ===== UTILITIES ===== */
-.hidden {
-    display: none !important;
-}
-
-.not-loaded * {
-    animation-play-state: paused !important;
+.fade-overlay:not(.hidden) {
+    animation: fadeToBlack 1.5s ease-out forwards;
 }

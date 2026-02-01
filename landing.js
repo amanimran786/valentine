@@ -2,85 +2,137 @@
 console.log('🎀 Landing page loaded');
 
 // Timing for animation phases (in milliseconds)
-const FLOWER_DURATION = 4500; // 4.5 seconds - Flower blooms with particles
-const WARP_DURATION = 3500;   // 3.5 seconds - Light speed tunnel
-const BLACKHOLE_DURATION = 3500; // 3.5 seconds - Black hole forms
-const FADE_DURATION = 1000;   // 1 second - Fade to Valentine page
+const FLOWER_DURATION = 5000;      // Flower blooms - enough time to see it
+const WARP_DURATION = 4000;        // Light speed tunnel effect
+const BLACKHOLE_DURATION = 4000;   // Black hole forms and consumes
+const FADE_DURATION = 1500;        // Fade transition
+
+// Animation state
+let currentPhase = 'flower';
 
 // Start animation when page fully loads
-window.addEventListener('load', startAnimation);
+window.addEventListener('load', () => {
+    // Ensure DOM is ready
+    requestAnimationFrame(() => {
+        startAnimation();
+    });
+});
+
+// Also start if document is already loaded
+if (document.readyState === 'complete') {
+    startAnimation();
+}
 
 function startAnimation() {
-    console.log('✨ Starting the most beautiful animation sequence...');
+    console.log('✨ PHASE 1: Flower blooming...');
+    currentPhase = 'flower';
     
-    // Remove "not-loaded" class to trigger all CSS animations
+    // Remove "not-loaded" class to trigger animations
     document.body.classList.remove('not-loaded');
     
-    // Create a magical moment with visual feedback
+    // Create aura effect
     createFlowerAura();
     
-    // Schedule next phase
-    setTimeout(transitionToWarp, FLOWER_DURATION);
+    // Schedule transition to warp
+    setTimeout(() => {
+        transitionToWarp();
+    }, FLOWER_DURATION);
 }
 
 function createFlowerAura() {
-    // Add a subtle glow effect during bloom
     const container = document.querySelector('.landing-container');
-    const aura = document.createElement('div');
-    aura.classList.add('aura-effect');
-    container.appendChild(aura);
-    
-    setTimeout(() => aura.remove(), 3000);
+    if (container) {
+        const aura = document.createElement('div');
+        aura.classList.add('aura-effect');
+        container.appendChild(aura);
+        
+        setTimeout(() => {
+            if (aura && aura.parentNode) {
+                aura.parentNode.removeChild(aura);
+            }
+        }, 3500);
+    }
 }
 
 function transitionToWarp() {
-    console.log('⚡ WARP SPEED ENGAGED! Entering hyperspace...');
+    if (currentPhase !== 'flower') return;
     
-    // Hide flower, show warp
+    console.log('⚡ PHASE 2: Entering warp speed...');
+    currentPhase = 'warp';
+    
     const flowerWrapper = document.querySelector('.flower-wrapper');
     const warpSection = document.querySelector('.warp-section');
     
-    flowerWrapper.classList.add('hidden');
-    warpSection.classList.remove('hidden');
-    
-    // Add visual shake effect for impact
-    warpSection.style.animation = 'none';
-    setTimeout(() => {
-        warpSection.style.animation = '';
-    }, 10);
+    if (flowerWrapper && warpSection) {
+        // Smooth transition: fade out flower, fade in warp
+        flowerWrapper.style.opacity = '0';
+        flowerWrapper.style.transition = 'opacity 0.5s ease-out';
+        
+        setTimeout(() => {
+            flowerWrapper.classList.add('hidden');
+            warpSection.classList.remove('hidden');
+            warpSection.style.opacity = '1';
+            warpSection.style.transition = 'opacity 0.5s ease-in';
+        }, 300);
+    }
     
     // Schedule next phase
-    setTimeout(transitionToBlackhole, WARP_DURATION);
+    setTimeout(() => {
+        transitionToBlackhole();
+    }, WARP_DURATION);
 }
 
 function transitionToBlackhole() {
-    console.log('🕳️ BLACK HOLE FORMING... Reality bending...');
+    if (currentPhase !== 'warp') return;
     
-    // Hide warp, show black hole
+    console.log('🕳️ PHASE 3: Black hole forming...');
+    currentPhase = 'blackhole';
+    
     const warpSection = document.querySelector('.warp-section');
     const blackholeSection = document.querySelector('.blackhole-section');
     
-    warpSection.classList.add('hidden');
-    blackholeSection.classList.remove('hidden');
+    if (warpSection && blackholeSection) {
+        // Smooth transition: fade out warp, fade in blackhole
+        warpSection.style.opacity = '0';
+        warpSection.style.transition = 'opacity 0.5s ease-out';
+        
+        setTimeout(() => {
+            warpSection.classList.add('hidden');
+            blackholeSection.classList.remove('hidden');
+            blackholeSection.style.opacity = '1';
+            blackholeSection.style.transition = 'opacity 0.5s ease-in';
+        }, 300);
+    }
     
-    // Add screen pulsing effect
-    document.body.style.boxShadow = 'inset 0 0 100px rgba(255, 20, 147, 0.3)';
+    // Add subtle pulse effect to body
+    document.body.style.boxShadow = 'inset 0 0 60px rgba(255, 20, 147, 0.2)';
     
-    // Schedule final transition
-    setTimeout(transitionToValentine, BLACKHOLE_DURATION);
+    // Schedule final phase
+    setTimeout(() => {
+        transitionToValentine();
+    }, BLACKHOLE_DURATION);
 }
 
 function transitionToValentine() {
-    console.log('💕 LOVE CONQUERS ALL! Taking you to the Valentine...');
+    if (currentPhase !== 'blackhole') return;
+    
+    console.log('💕 PHASE 4: Transitioning to Valentine...');
+    currentPhase = 'valentine';
     
     // Remove pulse effect
     document.body.style.boxShadow = 'none';
     
-    // Show fade overlay
     const fadeOverlay = document.querySelector('.fade-overlay');
-    fadeOverlay.classList.remove('hidden');
+    if (fadeOverlay) {
+        fadeOverlay.classList.remove('hidden');
+        fadeOverlay.style.animation = 'none';
+        
+        // Force reflow to restart animation
+        void fadeOverlay.offsetWidth;
+        fadeOverlay.style.animation = '';
+    }
     
-    // Redirect after fade completes
+    // Redirect after fade
     setTimeout(() => {
         window.location.href = 'valentine.html';
     }, FADE_DURATION);

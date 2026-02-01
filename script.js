@@ -120,12 +120,15 @@ function showMessage(text) {
 function showAnnoyedGif() {
     // Pool of annoyed/side eye gifs to choose from
     const annoyedGifs = [
-        'https://media.giphy.com/media/l0HlJY9x8FZo0XO1i/giphy.gif',
-        'https://media.giphy.com/media/d3OdKKKlJpdbEVEQ/giphy.gif',
-        'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
-        'https://media.giphy.com/media/l0HlTy9x8FZo0XO1i/giphy.gif',
-        'https://media.giphy.com/media/g9GUusdUZsKFO/giphy.gif',
-        'https://media.giphy.com/media/3o6Zt6KHxJTbXCnSvu/giphy.gif'
+        'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTVzc2ozdXc2eDVnbXU5eHNzdGY5dmFlMWd3d2VjOXhwMGRrcHJuaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Wwn5NKv4At2CIc8XQa/giphy.gif',
+        'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTZjcWdtb3M3NDI2NmV5YXBvYWNtdGNxbndieHJ6bWZoeTlzOTAydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.gif',
+        'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTRlYWdtZmsxdnl2aTQzMGVpYjF3cDN6MDdvZmhweDBhcWI0bG45cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/10uQlPcgpmDrTW/giphy.gif',
+        'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmg3ZXEyOXR2ZHNkdzRpYXoyYXF2a2RqYWpxdXJqaWZrNTg4ZW9iMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wr7oA0rSjnWuiLJOY5/giphy.gif',
+        'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yyq0WXMv720OcpZvmA/giphy.gif',
+        'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yialCX0MqjLgAgoifw/giphy.gif',
+        'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FvKKZHr9dut8Pib9Xn/giphy.gif',
+        'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/mEH2SqVPj257XTEKss/giphy.gif',
+        'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/AAsj7jdrHjtp6/giphy.gif'
     ];
     
     // Pick a random annoyed gif

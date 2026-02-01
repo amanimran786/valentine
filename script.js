@@ -135,17 +135,23 @@ function showAnnoyedGif() {
     const img = document.createElement('img');
     img.src = randomAnnoyedGif;
     img.alt = 'Annoyed';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
     
     // Clear and add the annoyed gif
     annoyedMediaContainer.innerHTML = '';
     annoyedMediaContainer.appendChild(img);
     
+    // Hide the question gif temporarily
+    questionGif.classList.add('hidden');
+    
     // Show the annoyed gif box
     annoyedGifBox.classList.remove('hidden');
     
-    // Hide it after 2 seconds
+    // Hide the annoyed gif and show question gif again after 2 seconds
     setTimeout(() => {
         annoyedGifBox.classList.add('hidden');
+        questionGif.classList.remove('hidden');
     }, 2000);
 }
 

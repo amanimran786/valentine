@@ -77,6 +77,10 @@ class Flower {
     }
 
     drawPetal(angle, scale) {
+        if (!ctx) {
+            console.error('ctx is null in drawPetal');
+            return;
+        }
         ctx.save();
         ctx.translate(this.centerX, this.centerY);
         ctx.rotate(angle);
@@ -91,6 +95,10 @@ class Flower {
     }
 
     drawStem() {
+        if (!ctx) {
+            console.error('ctx is null in drawStem');
+            return;
+        }
         ctx.strokeStyle = `rgba(34, 139, 34, ${0.7 + 0.3 * this.progress})`;
         ctx.lineWidth = 4;
         ctx.beginPath();
@@ -100,6 +108,10 @@ class Flower {
     }
 
     drawCenter() {
+        if (!ctx) {
+            console.error('ctx is null in drawCenter');
+            return;
+        }
         ctx.fillStyle = '#FFD700';
         ctx.beginPath();
         ctx.arc(this.centerX, this.centerY, 20 * this.progress, 0, Math.PI * 2);
@@ -107,6 +119,10 @@ class Flower {
     }
 
     draw() {
+        if (!ctx) {
+            console.error('ctx is null in draw');
+            return;
+        }
         // Draw stem
         this.drawStem();
 
@@ -140,9 +156,15 @@ function animateFlower() {
     const dt = (now - lastTime) / 1000 / 8; // 8 second duration
     lastTime = now;
 
-    // Clear canvas with background
-    ctx.fillStyle = 'rgba(26, 0, 51, 0.95)';
+    // Clear canvas with background - make it darker to see something
+    ctx.fillStyle = 'rgb(26, 0, 51)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw a test rectangle to verify canvas is working
+    if (flower.progress < 0.1) {
+        ctx.fillStyle = 'rgba(255, 200, 200, 0.5)';
+        ctx.fillRect(0, 0, 100, 100);
+    }
 
     flower.update(dt);
     flower.draw();

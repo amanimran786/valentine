@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main container for the valentine question -->
+    <div class="container">
+        <!-- WELCOME PAGE - Shows first -->
+        <div id="welcomePage" class="content welcome-page">
+            <div class="welcome-gif">
+                <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExazU5YXp4c2RjOTAycGJ0ajJpZGRobHZ4enlrMXNkb2k2NHp4cDhnNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yaPTR1SpFmBfa/giphy.gif" alt="Welcome">
+            </div>
+            <button id="continueBtn" class="btn btn-yes" style="margin-top: 30px;">Continue 💕</button>
+        </div>
+
+        <!-- QUESTION PAGE - Shows after clicking Continue -->
+        <div id="questionPage" class="content question-page hidden">
+            <h1 id="mainQuestion">Salwa, will you be my Valentine?</h1>
+            
+            <!-- GIF for the question -->
+            <div class="question-gif" id="questionGif">
+                <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWY5Z2d6aXdhZzJuNG91cmlmejhhcHo5YWdjN3hwNHFxaXVoM203ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5uALZbY4nMHGU/giphy.gif" alt="Valentine's question">
+            </div>
+            
+            <!-- Button container - holds both Yes and No buttons -->
+            <div class="button-container">
+                <button id="yesBtn" class="btn btn-yes">Yes! 💕</button>
+                <button id="noBtn" class="btn btn-no">No</button>
+            </div>
+
+            <!-- Message section - shows different messages based on user actions -->
+            <div id="messageBox" class="message-box hidden">
+                <p id="messageText"></p>
+            </div>
+
+            <!-- Celebration section - shows gif/video when Yes is selected -->
+            <div id="celebrationBox" class="celebration-box hidden">
+                <p>I LOVE YOU TWIN 💕</p>
+                <div id="mediaContainer" class="media-container">
+                    <!-- GIF/Video will load here -->
+                </div>
+            </div>
+
+            <!-- Kissing gif section - loads after Yes -->
+            <div id="kissingGifBox" class="celebration-box hidden">
+                <div id="kissingMediaContainer" class="media-container">
+                    <!-- Kissing GIF will load here -->
+                </div>
+            </div>
+
+            <!-- Final gif section - loads after kissing gif -->
+            <div id="finalGifBox" class="celebration-box hidden">
+                <div id="finalMediaContainer" class="media-container">
+                    <!-- Final GIF will load here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript file - contains all the interactive logic -->
+    <script src="script.js"></script>
+</body>
+</html>

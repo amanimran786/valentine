@@ -4,26 +4,26 @@ let noClickCount = 0; // Counts how many times they clicked "No"
 let alreadySaidYes = false; // Checks if they already said Yes
 let moveInterval = null; // Stores the continuous movement interval
 let annoyedGifs = [
-    'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTVzc2ozdXc2eDVnbXU5eHNzdGY5dmFlMWd3d2VjOXhwMGRrcHJuaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Wwn5NKv4At2CIc8XQa/giphy.gif',
-    'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTZjcWdtb3M3NDI2NmV5YXBvYWNtdGNxbndieHJ6bWZoeTlzOTAydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.gif',
-    'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTRlYWdtZmsxdnl2aTQzMGVpYjF3cDN6MDdvZmhweDBhcWI0bG45cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/10uQlPcgpmDrTW/giphy.gif',
-    'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmg3ZXEyOXR2ZHNkdzRpYXoyYXF2a2RqYWpxdXJqaWZrNTg4ZW9iMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wr7oA0rSjnWuiLJOY5/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yyq0WXMv720OcpZvmA/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yialCX0MqjLgAgoifw/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FvKKZHr9dut8Pib9Xn/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/mEH2SqVPj257XTEKss/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemRtcXA4cGxvZ2NtZ3BoeTdmcGR4cHl1ZDZtbGJsaTFkbjE3NmdiMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/AAsj7jdrHjtp6/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ejE3d2ZsN2ozcXZzd3piMTgxY3RtMG85cGF0Y2ZncGN1ODd0ZGJ2biZlcD12MV9naWZzX3NlYXJjaCZjdD1n/kopN26K2ThF9j7RL4K/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ejE3d2ZsN2ozcXZzd3piMTgxY3RtMG85cGF0Y2ZncGN1ODd0ZGJ2biZlcD12MV9naWZzX3NlYXJjaCZjdD1n/hECJDGJs4hQjjWLqRV/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ejE3d2ZsN2ozcXZzd3piMTgxY3RtMG85cGF0Y2ZncGN1ODd0ZGJ2biZlcD12MV9naWZzX3NlYXJjaCZjdD1n/r7mBun5sXQUJl59IVw/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ejE3d2ZsN2ozcXZzd3piMTgxY3RtMG85cGF0Y2ZncGN1ODd0ZGJ2biZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qdqxysIbFi6zHijLjp/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3MGp2a3ZvZW83dGpkZjRmNXBneHRxcnE5dDN4OGh2NHN2bWwxY240MCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OHRF8LZis06OiPDJby/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3MGp2a3ZvZW83dGpkZjRmNXBneHRxcnE5dDN4OGh2NHN2bWwxY240MCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/CumzjGEnkK01Fnr3wm/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3aDI1OWZybWRmMDdpbjB6YXBzaWVlMHZyM3J6YTBicHh5ZDB2NDJ0ZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YYCAPVKo73l1mRwtCz/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZWNmMGpzdXM5Y2ZiZ2ZkYXMxYmRsM2NkbHAycjZidHVvNGZ6c2VhZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/bcqAMUTUHoLDy/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3ZnB0djZmejY2bmZsN3M4d3N3aTR5c2NwbXFjY2s1dDluN2tkODZxNCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zZbf6UpZslp3nvFjIR/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3MHpzaXh4dnowZ3FvMTNhcTVia2wydmVnd3ZpZWtpMTZ6Y3Y0aXpwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/PvSGE5EgKD3jlsPwgx/giphy.gif',
-    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NWQ0MWppMTVzc200dmk5N2xnOW15MmU1MzJ1bTU3OTVuYmcwOXJldCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/WRgsiNC2GCn21l4gtV/giphy.gif'
+    'https://media.giphy.com/media/Wwn5NKv4At2CIc8XQa/giphy.gif',
+    'https://media.giphy.com/media/H5C8CevNMbpBqNqFjl/giphy.gif',
+    'https://media.giphy.com/media/10uQlPcgpmDrTW/giphy.gif',
+    'https://media.giphy.com/media/wr7oA0rSjnWuiLJOY5/giphy.gif',
+    'https://media.giphy.com/media/yyq0WXMv720OcpZvmA/giphy.gif',
+    'https://media.giphy.com/media/yialCX0MqjLgAgoifw/giphy.gif',
+    'https://media.giphy.com/media/FvKKZHr9dut8Pib9Xn/giphy.gif',
+    'https://media.giphy.com/media/mEH2SqVPj257XTEKss/giphy.gif',
+    'https://media.giphy.com/media/AAsj7jdrHjtp6/giphy.gif',
+    'https://media.giphy.com/media/kopN26K2ThF9j7RL4K/giphy.gif',
+    'https://media.giphy.com/media/hECJDGJs4hQjjWLqRV/giphy.gif',
+    'https://media.giphy.com/media/r7mBun5sXQUJl59IVw/giphy.gif',
+    'https://media.giphy.com/media/qdqxysIbFi6zHijLjp/giphy.gif',
+    'https://media.giphy.com/media/OHRF8LZis06OiPDJby/giphy.gif',
+    'https://media.giphy.com/media/CumzjGEnkK01Fnr3wm/giphy.gif',
+    'https://media.giphy.com/media/YYCAPVKo73l1mRwtCz/giphy.gif',
+    'https://media.giphy.com/media/bcqAMUTUHoLDy/giphy.gif',
+    'https://media.giphy.com/media/zZbf6UpZslp3nvFjIR/giphy.gif',
+    'https://media.giphy.com/media/PvSGE5EgKD3jlsPwgx/giphy.gif',
+    'https://media.giphy.com/media/WRgsiNC2GCn21l4gtV/giphy.gif'
 ];
 let remainingGifs = [...annoyedGifs]; // Track which gifs haven't been shown yet
 let currentGifIndex = 0; // Track position in current cycle

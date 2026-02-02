@@ -5,144 +5,80 @@ class VideoLandingController {
     constructor() {
         this.videoElement = document.getElementById('soraVideo');
         this.audioElement = document.getElementById('backgroundMusic');
+        this.startOverlay = document.getElementById('startOverlay');
         this.fadeOverlay = document.querySelector('.fade-overlay');
-        this.videoFallback = document.querySelector('.video-fallback');
-        this.audioPlayed = false;
-        this.videoDuration = 16000; // 16 seconds for the video
-        this.redirectDelay = 18000; // 2 seconds after video ends for fade
+        this.started = false;
         
         this.init();
     }
     
     init() {
         console.log('VideoLandingController initialized');
-        console.log('Audio element:', this.audioElement);
-        console.log('Video element:', this.videoElement);
         
-        // Check if video element exists
-        if (!this.videoElement) {
-            console.warn('Video element not found');
-            this.showFallback();
+        if (!this.videoElement || !this.audioElement) {
+            console.error('Video or audio element not found');
             return;
         }
         
-        // Get the play button
-        this.playButton = document.getElementById('playAudioBtn');
-        if (this.playButton) {
-            this.playButton.addEventListener('click', () => this.playAudio());
-        }
-        
-        // Play audio immediately on page load
-        this.playAudio();
-        
-        // Aggressive audio play attempts if first attempt fails
-        setTimeout(() => this.playAudio(), 100);
-        setTimeout(() => this.playAudio(), 300);
-        setTimeout(() => this.playAudio(), 500);
-        
-        // Allow user interaction to play audio
-        const interactionHandler = () => {
-            console.log('User interaction detected');
-            this.playAudio();
-            document.removeEventListener('click', interactionHandler);
-            document.removeEventListener('touchstart', interactionHandler);
-            document.removeEventListener('keydown', interactionHandler);
-        };
-        
-        document.addEventListener('click', interactionHandler);
-        document.addEventListener('touchstart', interactionHandler);
-        document.addEventListener('keydown', interactionHandler);
-        
-        // Handle video ended event
-        this.videoElement.addEventListener('ended', () => this.handleVideoEnd());
-        
-        // Handle video errors
-        this.videoElement.addEventListener('error', () => this.handleVideoError());
-        
-        // Handle load start
-        this.videoElement.addEventListener('loadstart', () => console.log('Video loading...'));
-        
-        // Handle canplay (video is ready to play)
-        this.videoElement.addEventListener('canplay', () => {
-            console.log('Video ready to play');
-            // Try to play audio when video is ready
-            this.playAudio();
-        });
-        
-        // Log video duration
-        this.videoElement.addEventListener('loadedmetadata', () => {
-            console.log(`Video duration: ${this.videoElement.duration}s`);
-            // Try to play audio when video metadata is loaded
-            this.playAudio();
-        });
-        
-        // Try to play audio when it can play
-        if (this.audioElement) {
-            this.audioElement.addEventListener('canplay', () => {
-                console.log('Audio ready to play');
-                this.playAudio();
+        // Handle start overlay click
+        if (this.startOverlay) {
+            this.startOverlay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log('Start clicked!');
+                this.startAnimation();
             });
             
-            // Show button if audio fails to play
-            this.audioElement.addEventListener('play', () => {
-                console.log('Audio playback started');
-                if (this.playButton) {
-                    this.playButton.style.opacity = '0';
-                    this.playButton.style.pointerEvents = 'none';
+            // Also allow spacebar or Enter to start
+            document.addEventListener('keydown', (e) => {
+                if ((e.key === ' ' || e.key === 'Enter') && !this.started) {
+                    e.preventDefault();
+                    this.startAnimation();
                 }
             });
         }
+        
+        // Handle video ended event
+        this.videoElement.addEventListener('ended', () => this.handleVideoEnd());
+        this.videoElement.addEventListener('error', () => this.handleVideoError());
     }
     
-    playAudio() {
-        if (!this.audioElement) {
-            console.warn('Audio element not found');
-            this.showPlayButton();
-            return;
+    startAnimation() {
+        if (this.started) return;
+        this.started = true;
+        
+        console.log('Starting animation and music...');
+        
+        // Hide the start overlay
+        if (this.startOverlay) {
+            this.startOverlay.style.opacity = '0';
+            this.startOverlay.style.pointerEvents = 'none';
+            this.startOverlay.style.transition = 'opacity 0.5s ease-out';
         }
         
-        if (this.audioPlayed) {
-            return;
+        // Play video
+        const videoPromise = this.videoElement.play();
+        if (videoPromise !== undefined) {
+            videoPromise.catch(error => {
+                console.error('Video play failed:', error);
+            });
         }
         
-        console.log('Attempting to play audio...');
-        
-        try {
-            // Remove muted attribute
+        // Play audio with a slight delay to sync
+        setTimeout(() => {
             this.audioElement.muted = false;
-            this.audioElement.volume = 0.7; // Set reasonable volume
+            this.audioElement.volume = 0.7;
             
-            // Play the audio
-            const playPromise = this.audioElement.play();
-            
-            if (playPromise !== undefined) {
-                playPromise
+            const audioPromise = this.audioElement.play();
+            if (audioPromise !== undefined) {
+                audioPromise
                     .then(() => {
-                        console.log('✓ Audio is now playing!');
-                        this.audioPlayed = true;
-                        // Hide the button since audio is playing
-                        if (this.playButton) {
-                            this.playButton.style.opacity = '0';
-                            this.playButton.style.pointerEvents = 'none';
-                        }
+                        console.log('✓ Music and video are now playing!');
                     })
                     .catch(error => {
-                        console.log('✗ Audio play blocked by browser:', error.message);
-                        // Show button as fallback
-                        this.showPlayButton();
+                        console.error('✗ Audio play failed:', error.message);
                     });
             }
-        } catch (error) {
-            console.error('Error playing audio:', error);
-            this.showPlayButton();
-        }
-    }
-    
-    showPlayButton() {
-        if (this.playButton) {
-            this.playButton.style.opacity = '0.8';
-            this.playButton.style.pointerEvents = 'auto';
-        }
+        }, 50);
     }
     
     handleVideoEnd() {
@@ -162,6 +98,15 @@ class VideoLandingController {
         setTimeout(() => {
             this.redirectToValentine();
         }, 1000);
+    }
+    
+    handleVideoError() {
+        console.error('Video playback error');
+        // Still redirect after timeout
+        setTimeout(() => {
+            console.log('Video error, redirecting...');
+            this.redirectToValentine();
+        }, 3000);
     }
     
     fadeOutAudio(duration) {
@@ -185,29 +130,8 @@ class VideoLandingController {
         }, stepDuration);
     }
     
-    handleVideoError() {
-        console.error('Video playback error');
-        this.showFallback();
-        
-        // Still redirect after timeout
-        setTimeout(() => {
-            console.log('Fallback timeout, redirecting...');
-            this.redirectToValentine();
-        }, 3000);
-    }
-    
-    showFallback() {
-        if (this.videoFallback) {
-            this.videoFallback.classList.add('show');
-        }
-        if (this.videoElement) {
-            this.videoElement.style.display = 'none';
-        }
-    }
-    
     redirectToValentine() {
         console.log('Redirecting to Valentine page...');
-        // Replace current page with valentine page
         window.location.href = './valentine.html';
     }
 }

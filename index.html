@@ -9,16 +9,24 @@
 <body>
     <div class="landing-container">
         <!-- AUDIO: Rocketeer background music -->
-        <audio id="backgroundMusic" autoplay>
+        <audio id="backgroundMusic">
             <source src="./rocketeer.mp3" type="audio/mpeg">
         </audio>
+
+        <!-- Start overlay - click to begin -->
+        <div id="startOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 100; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <div style="text-align: center; color: white;">
+                <h1 style="font-size: 2.5em; margin-bottom: 20px; font-weight: 300; letter-spacing: 2px;">✨ Click to Begin ✨</h1>
+                <p style="font-size: 1.2em; margin-bottom: 10px;">Our Valentine's Journey</p>
+                <p style="font-size: 0.9em; opacity: 0.8;">🎵 With Music 🎬</p>
+            </div>
+        </div>
 
         <!-- VIDEO VERSION - Use this once you have the Sora video -->
         <div class="video-section">
             <!-- Replace this with your actual Sora video file -->
             <video 
                 id="soraVideo" 
-                autoplay 
                 muted 
                 playsinline 
                 width="100%" 

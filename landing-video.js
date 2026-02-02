@@ -4,6 +4,7 @@
 class VideoLandingController {
     constructor() {
         this.videoElement = document.getElementById('soraVideo');
+        this.audioElement = document.getElementById('backgroundMusic');
         this.fadeOverlay = document.querySelector('.fade-overlay');
         this.videoFallback = document.querySelector('.video-fallback');
         this.videoDuration = 16000; // 16 seconds for the video
@@ -41,6 +42,11 @@ class VideoLandingController {
     handleVideoEnd() {
         console.log('Video ended, initiating transition...');
         
+        // Fade out music over 1 second
+        if (this.audioElement) {
+            this.fadeOutAudio(1000);
+        }
+        
         // Show fade overlay
         if (this.fadeOverlay) {
             this.fadeOverlay.classList.add('active');
@@ -50,6 +56,27 @@ class VideoLandingController {
         setTimeout(() => {
             this.redirectToValentine();
         }, 1000);
+    }
+    
+    fadeOutAudio(duration) {
+        if (!this.audioElement) return;
+        
+        const steps = 50;
+        const stepDuration = duration / steps;
+        const startVolume = this.audioElement.volume;
+        let currentStep = 0;
+        
+        const fadeInterval = setInterval(() => {
+            currentStep++;
+            const progress = currentStep / steps;
+            this.audioElement.volume = startVolume * (1 - progress);
+            
+            if (currentStep >= steps) {
+                clearInterval(fadeInterval);
+                this.audioElement.pause();
+                this.audioElement.volume = startVolume; // Reset for next time
+            }
+        }, stepDuration);
     }
     
     handleVideoError() {

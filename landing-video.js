@@ -21,6 +21,13 @@ class VideoLandingController {
             return;
         }
         
+        // Try to unmute and play audio
+        this.playAudio();
+        
+        // Allow user click to unmute audio (browser autoplay policy fallback)
+        document.addEventListener('click', () => this.playAudio());
+        document.addEventListener('touchstart', () => this.playAudio());
+        
         // Handle video ended event
         this.videoElement.addEventListener('ended', () => this.handleVideoEnd());
         
@@ -37,6 +44,18 @@ class VideoLandingController {
         this.videoElement.addEventListener('loadedmetadata', () => {
             console.log(`Video duration: ${this.videoElement.duration}s`);
         });
+    }
+    
+    playAudio() {
+        if (this.audioElement && this.audioElement.paused) {
+            this.audioElement.muted = false;
+            const playPromise = this.audioElement.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Audio autoplay failed, waiting for user interaction:', error);
+                });
+            }
+        }
     }
     
     handleVideoEnd() {

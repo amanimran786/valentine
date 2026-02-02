@@ -7,6 +7,7 @@ class VideoLandingController {
         this.audioElement = document.getElementById('backgroundMusic');
         this.fadeOverlay = document.querySelector('.fade-overlay');
         this.videoFallback = document.querySelector('.video-fallback');
+        this.audioPlayed = false;
         this.videoDuration = 16000; // 16 seconds for the video
         this.redirectDelay = 18000; // 2 seconds after video ends for fade
         
@@ -14,6 +15,10 @@ class VideoLandingController {
     }
     
     init() {
+        console.log('VideoLandingController initialized');
+        console.log('Audio element:', this.audioElement);
+        console.log('Video element:', this.videoElement);
+        
         // Check if video element exists
         if (!this.videoElement) {
             console.warn('Video element not found');
@@ -21,12 +26,23 @@ class VideoLandingController {
             return;
         }
         
-        // Try to unmute and play audio
-        this.playAudio();
+        // Aggressive audio play attempts
+        setTimeout(() => this.playAudio(), 100);
+        setTimeout(() => this.playAudio(), 500);
+        setTimeout(() => this.playAudio(), 1000);
         
-        // Allow user click to unmute audio (browser autoplay policy fallback)
-        document.addEventListener('click', () => this.playAudio());
-        document.addEventListener('touchstart', () => this.playAudio());
+        // Allow user interaction to play audio
+        const interactionHandler = () => {
+            console.log('User interaction detected');
+            this.playAudio();
+            document.removeEventListener('click', interactionHandler);
+            document.removeEventListener('touchstart', interactionHandler);
+            document.removeEventListener('keydown', interactionHandler);
+        };
+        
+        document.addEventListener('click', interactionHandler);
+        document.addEventListener('touchstart', interactionHandler);
+        document.addEventListener('keydown', interactionHandler);
         
         // Handle video ended event
         this.videoElement.addEventListener('ended', () => this.handleVideoEnd());
@@ -38,23 +54,63 @@ class VideoLandingController {
         this.videoElement.addEventListener('loadstart', () => console.log('Video loading...'));
         
         // Handle canplay (video is ready to play)
-        this.videoElement.addEventListener('canplay', () => console.log('Video ready to play'));
+        this.videoElement.addEventListener('canplay', () => {
+            console.log('Video ready to play');
+            // Try to play audio when video is ready
+            this.playAudio();
+        });
         
         // Log video duration
         this.videoElement.addEventListener('loadedmetadata', () => {
             console.log(`Video duration: ${this.videoElement.duration}s`);
+            // Try to play audio when video metadata is loaded
+            this.playAudio();
         });
+        
+        // Try to play audio when it can play
+        if (this.audioElement) {
+            this.audioElement.addEventListener('canplay', () => {
+                console.log('Audio ready to play');
+                this.playAudio();
+            });
+        }
     }
     
     playAudio() {
-        if (this.audioElement && this.audioElement.paused) {
+        if (!this.audioElement) {
+            console.warn('Audio element not found');
+            return;
+        }
+        
+        if (this.audioPlayed) {
+            console.log('Audio already attempted to play');
+            return;
+        }
+        
+        console.log('Attempting to play audio...');
+        console.log('Audio paused:', this.audioElement.paused);
+        console.log('Audio muted:', this.audioElement.muted);
+        
+        try {
+            // Unmute the audio
             this.audioElement.muted = false;
+            
+            // Play the audio
             const playPromise = this.audioElement.play();
+            
             if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log('Audio autoplay failed, waiting for user interaction:', error);
-                });
+                playPromise
+                    .then(() => {
+                        console.log('✓ Audio is now playing!');
+                        this.audioPlayed = true;
+                    })
+                    .catch(error => {
+                        console.log('✗ Audio play failed:', error.message);
+                        console.log('This is normal - user interaction may be needed');
+                    });
             }
+        } catch (error) {
+            console.error('Error playing audio:', error);
         }
     }
     

@@ -32,10 +32,13 @@ class VideoLandingController {
             this.playButton.addEventListener('click', () => this.playAudio());
         }
         
-        // Aggressive audio play attempts
+        // Play audio immediately on page load
+        this.playAudio();
+        
+        // Aggressive audio play attempts if first attempt fails
         setTimeout(() => this.playAudio(), 100);
+        setTimeout(() => this.playAudio(), 300);
         setTimeout(() => this.playAudio(), 500);
-        setTimeout(() => this.playAudio(), 1000);
         
         // Allow user interaction to play audio
         const interactionHandler = () => {

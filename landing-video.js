@@ -20,22 +20,37 @@ class VideoLandingController {
             return;
         }
         
+        // Get the play button
+        const playButton = document.getElementById('playButton');
+        
         // Handle start overlay click
         if (this.startOverlay) {
             this.startOverlay.addEventListener('click', (e) => {
-                e.stopPropagation();
-                console.log('Start clicked!');
-                this.startAnimation();
-            });
-            
-            // Also allow spacebar or Enter to start
-            document.addEventListener('keydown', (e) => {
-                if ((e.key === ' ' || e.key === 'Enter') && !this.started) {
-                    e.preventDefault();
+                // Only trigger if clicking the overlay itself, not the button
+                if (e.target === this.startOverlay) {
+                    e.stopPropagation();
+                    console.log('Overlay clicked!');
                     this.startAnimation();
                 }
             });
         }
+        
+        // Handle button click
+        if (playButton) {
+            playButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log('Play button clicked!');
+                this.startAnimation();
+            });
+        }
+        
+        // Also allow spacebar or Enter to start
+        document.addEventListener('keydown', (e) => {
+            if ((e.key === ' ' || e.key === 'Enter') && !this.started) {
+                e.preventDefault();
+                this.startAnimation();
+            }
+        });
         
         // Handle video ended event
         this.videoElement.addEventListener('ended', () => this.handleVideoEnd());

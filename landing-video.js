@@ -26,6 +26,12 @@ class VideoLandingController {
             return;
         }
         
+        // Get the play button
+        this.playButton = document.getElementById('playAudioBtn');
+        if (this.playButton) {
+            this.playButton.addEventListener('click', () => this.playAudio());
+        }
+        
         // Aggressive audio play attempts
         setTimeout(() => this.playAudio(), 100);
         setTimeout(() => this.playAudio(), 500);
@@ -73,27 +79,35 @@ class VideoLandingController {
                 console.log('Audio ready to play');
                 this.playAudio();
             });
+            
+            // Show button if audio fails to play
+            this.audioElement.addEventListener('play', () => {
+                console.log('Audio playback started');
+                if (this.playButton) {
+                    this.playButton.style.opacity = '0';
+                    this.playButton.style.pointerEvents = 'none';
+                }
+            });
         }
     }
     
     playAudio() {
         if (!this.audioElement) {
             console.warn('Audio element not found');
+            this.showPlayButton();
             return;
         }
         
         if (this.audioPlayed) {
-            console.log('Audio already attempted to play');
             return;
         }
         
         console.log('Attempting to play audio...');
-        console.log('Audio paused:', this.audioElement.paused);
-        console.log('Audio muted:', this.audioElement.muted);
         
         try {
-            // Unmute the audio
+            // Remove muted attribute
             this.audioElement.muted = false;
+            this.audioElement.volume = 0.7; // Set reasonable volume
             
             // Play the audio
             const playPromise = this.audioElement.play();
@@ -103,14 +117,28 @@ class VideoLandingController {
                     .then(() => {
                         console.log('✓ Audio is now playing!');
                         this.audioPlayed = true;
+                        // Hide the button since audio is playing
+                        if (this.playButton) {
+                            this.playButton.style.opacity = '0';
+                            this.playButton.style.pointerEvents = 'none';
+                        }
                     })
                     .catch(error => {
-                        console.log('✗ Audio play failed:', error.message);
-                        console.log('This is normal - user interaction may be needed');
+                        console.log('✗ Audio play blocked by browser:', error.message);
+                        // Show button as fallback
+                        this.showPlayButton();
                     });
             }
         } catch (error) {
             console.error('Error playing audio:', error);
+            this.showPlayButton();
+        }
+    }
+    
+    showPlayButton() {
+        if (this.playButton) {
+            this.playButton.style.opacity = '0.8';
+            this.playButton.style.pointerEvents = 'auto';
         }
     }
     

@@ -9,9 +9,8 @@
 <body>
     <div class="landing-container">
         <!-- AUDIO: Rocketeer background music -->
-        <audio id="backgroundMusic" autoplay muted playsinline>
+        <audio id="backgroundMusic">
             <source src="./rocketeer.mp3" type="audio/mpeg">
-            <source src="./rocketeer.mp3" type="audio/mp3">
         </audio>
 
         <!-- VIDEO VERSION - Use this once you have the Sora video -->
@@ -33,6 +32,11 @@
             <div class="video-fallback">
                 <p>Loading romantic surprise...</p>
             </div>
+            
+            <!-- Play button for audio (fallback if autoplay fails) -->
+            <button id="playAudioBtn" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; font-size: 16px; background: rgba(255, 105, 180, 0.8); color: white; border: none; border-radius: 5px; cursor: pointer; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s;">
+                🔊 Unmute Music
+            </button>
         </div>
 
         <!-- Fade overlay for transition -->
